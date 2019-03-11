@@ -34,7 +34,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @if (item.Dotted)
+                {
+                    <span>&#183;</span>
+                }
+                @if (item.Completed)
+                {
+                    <s> @Html.DisplayFor(modelItem => item.Description)</s>
+
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Description)
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.AddTime)
