@@ -19,9 +19,18 @@ namespace TaskManagementWeb.Controllers
         }
 
         // GET: Missions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            return View(await _context.Mission.ToListAsync());
+            var missions = from m in _context.Mission
+                           select m;
+            missions = missions.OrderBy(m => m.Id);
+
+            int pageSize = 25;
+            var completedCount = missions.Count();
+            return View(await PaginatedList<Mission>.CreateAsync(missions.AsNoTracking(), page ?? 1, pageSize));
+
+            //return View(await missions.ToListAsync());
+            //return View(await _context.Mission.ToListAsync());
         }
 
         // GET: Missions/Details/5
@@ -144,40 +153,47 @@ namespace TaskManagementWeb.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
+
+                if (ModelState.IsValid)
                 {
-                    if (mission.Completed)
+                    try
                     {
-                        _context.Update(mission);
-                        await _context.SaveChangesAsync();
+                        if (mission.Completed)
+                        {
+                            _context.Update(mission);
+                            await _context.SaveChangesAsync();
+                        }
+                        else
+                        {
+                            mission.Completed = true;
+                            _context.Update(mission);
+                            var ReEnteredMission = new Mission()
+                            {
+                                Description = mission.Description,
+                                AddTime = mission.AddTime,
+                                CompleteTime = mission.CompleteTime,
+                                Completed = false,
+                                Dotted = false
+                            };
+                            _context.Add(ReEnteredMission);
+                            await _context.SaveChangesAsync();
+                        }
                     }
-                    else
+                    catch (DbUpdateConcurrencyException)
                     {
-                        //mission.Completed = false;
-                        //_context.Add(mission);
-                        //await _context.SaveChangesAsync();
-                        //mission.Completed = true;
-                        _context.Update(mission);
-                        await _context.SaveChangesAsync();
-                        //await Create(mission);
+                        if (!MissionExists(mission.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
                     }
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MissionExists(mission.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(mission);
+                return View(mission);
+            
         }
 
         // GET: Missions/Delete/5

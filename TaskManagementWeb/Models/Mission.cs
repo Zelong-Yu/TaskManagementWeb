@@ -9,6 +9,7 @@ namespace TaskManagementWeb.Models
 {
     public class Mission
     {
+        [Key]
         public int Id { get; set; }
         [Required(ErrorMessage ="A Task Description is Required")]
         public string Description { get; set; }

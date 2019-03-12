@@ -1,10 +1,11 @@
-﻿@model IEnumerable<TaskManagementWeb.Models.Mission>
+﻿@*@model IEnumerable<TaskManagementWeb.Models.Mission>*@
+@model PaginatedList<TaskManagementWeb.Models.Mission>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Simple Scanning</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,59 +14,80 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.AddTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompleteTime)
-            </th>*@
+            @Html.DisplayNameFor(model => model.Description)
+        </th>*@
             @*<th>
-                @Html.DisplayNameFor(model => model.Completed)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Dotted)
-            </th>*@
+            @Html.DisplayNameFor(model => model.AddTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CompleteTime)
+        </th>*@
+            @*<th>
+            @Html.DisplayNameFor(model => model.Completed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Dotted)
+        </th>*@
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @if (item.Dotted)
-                {
-                    <span>&#183;</span>
-                }
-                @if (item.Completed)
-                {
-                    <s> @Html.DisplayFor(modelItem => item.Description)</s>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (item.Dotted)
+                    {
+                        <span>&#183;</span>
+                    }
+                    @if (item.Completed)
+                    {
+                        <s> @Html.DisplayFor(modelItem => item.Description)</s>
 
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.Description)
-                }
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.AddTime)
-            </td>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Description)
+                    }
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.AddTime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompleteTime)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Completed)
+                    </td>*@
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.Dotted)
+                    </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.CompleteTime)
-            </td>*@
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Completed)
-            </td>*@
-            @*<td>
-                @Html.DisplayFor(modelItem => item.Dotted)
-            </td>*@
-            <td>
-                <a asp-action="Select" asp-route-id="@item.Id">Select</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                @if (!item.Completed) { <a asp-action="Select" asp-route-id="@item.Id">Select |</a>  }
+                @*<a asp-action="Details" asp-route-id="@item.Id">Details</a> |*@
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-page="@(Model.PageIndex - 1)"
+   class="btn btn-default @prevDisabled">
+    Previous
+</a>
+<a asp-action="Index"
+   asp-route-page="@(Model.PageIndex + 1)"
+   class="btn btn-default @nextDisabled">
+    Next
+</a>
