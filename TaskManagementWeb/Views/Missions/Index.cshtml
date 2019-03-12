@@ -15,18 +15,18 @@
             <th>
                 @Html.DisplayNameFor(model => model.Description)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.AddTime)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.CompleteTime)
-            </th>
-            <th>
+            </th>*@
+            @*<th>
                 @Html.DisplayNameFor(model => model.Completed)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Dotted)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -48,20 +48,20 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 }
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.AddTime)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CompleteTime)
-            </td>
-            <td>
+            </td>*@
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Completed)
-            </td>
-            <td>
+            </td>*@
+            @*<td>
                 @Html.DisplayFor(modelItem => item.Dotted)
-            </td>
+            </td>*@
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Select" asp-route-id="@item.Id">Select</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>

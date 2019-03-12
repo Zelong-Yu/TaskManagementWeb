@@ -15,11 +15,11 @@ namespace TaskManagementWeb.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<TaskManagementWebContext>>()))
             {
-                // Look for any movies.
-                //if (context.Mission.Any())
-                //{
-                //    return;   // DB has been seeded
-                //}
+                //look for any movies.
+                if (context.Mission.Any())
+                    {
+                        return;   // db has been seeded
+                    }
 
                 context.Mission.AddRange(
                     new Mission

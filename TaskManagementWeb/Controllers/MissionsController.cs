@@ -52,14 +52,15 @@ namespace TaskManagementWeb.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Description,AddTime,CompleteTime,Completed,Dotted")] Mission mission)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(mission);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Create));
             }
             return View(mission);
         }
@@ -84,7 +85,7 @@ namespace TaskManagementWeb.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Description,AddTime,CompleteTime,Completed,Dotted")] Mission mission)
         {
             if (id != mission.Id)
@@ -98,6 +99,70 @@ namespace TaskManagementWeb.Controllers
                 {
                     _context.Update(mission);
                     await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!MissionExists(mission.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(mission);
+        }
+
+        // GET: Missions/Edit/5
+        public async Task<IActionResult> Select(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var mission = await _context.Mission.FindAsync(id);
+            if (mission == null)
+            {
+                return NotFound();
+            }
+            return View(mission);
+        }
+
+        // POST: Missions/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Select(int id, [Bind("Id,Description,AddTime,CompleteTime,Completed,Dotted")] Mission mission)
+        {
+            if (id != mission.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (mission.Completed)
+                    {
+                        _context.Update(mission);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        //mission.Completed = false;
+                        //_context.Add(mission);
+                        //await _context.SaveChangesAsync();
+                        //mission.Completed = true;
+                        _context.Update(mission);
+                        await _context.SaveChangesAsync();
+                        //await Create(mission);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -135,7 +200,7 @@ namespace TaskManagementWeb.Controllers
 
         // POST: Missions/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var mission = await _context.Mission.FindAsync(id);

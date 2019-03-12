@@ -62,7 +62,7 @@ namespace TaskManagementWeb
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Missions}/{action=Index}/{id?}");
             });
         }
     }
