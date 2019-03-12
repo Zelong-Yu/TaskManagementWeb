@@ -25,9 +25,18 @@ namespace TaskManagementWeb.Controllers
                            select m;
             missions = missions.OrderBy(m => m.Id);
 
-            int pageSize = 25;
-            var completedCount = missions.Count();
-            return View(await PaginatedList<Mission>.CreateAsync(missions.AsNoTracking(), page ?? 1, pageSize));
+            int pageSize = 5;
+
+            var currentPageAsync = PaginatedList<Mission>.CreateAsync(missions.AsNoTracking(), page ?? 1, pageSize);
+
+            //var currentPageEnumerable = currentPageAsync.ToAsyncEnumerable();
+            //var currentPageTaskList = currentPageEnumerable.ToList();
+            //int count = currentPageTaskList.Count();
+            //if (completedCount == pageSize)
+            //{
+            //    ;
+            //}
+            return View(await currentPageAsync);
 
             //return View(await missions.ToListAsync());
             //return View(await _context.Mission.ToListAsync());
