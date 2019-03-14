@@ -39,6 +39,10 @@ References
 ----------
 * [**Simple Scanning** original documentation by _Mark Foster_](http://markforster.squarespace.com/blog/2017/12/2/simple-scanning-the-rules.html)
 
+* [Get started with ASP.NET Core MVC](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-2.2&tabs=visual-studio)
+
+* [Tutorial: Add sorting, filtering, and paging - ASP.NET MVC with EF Core](https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-2.2)
+
 DevLog - Task Management/Time Usage
 ----------
 25 minutes Pomodoro Technic Used.
@@ -51,8 +55,7 @@ Estimate Time: 5 hours Actual Time: 5 hours
 
 Conclusion: Text tutorials and MSFT Official documents are way easier to follow.
 
-[Get started with ASP.NET Core MVC](https://docs.microsoft.com/en-us/aspnet/core/tutorials/first-mvc-app/start-mvc?view=aspnetcore-2.2&tabs=visual-studio)
-[Tutorial: Add sorting, filtering, and paging - ASP.NET MVC with EF Core](https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/sort-filter-page?view=aspnetcore-2.2)
+
 DevLog - Next Step
 ----------
 - Create and link existing DB
